@@ -1,47 +1,75 @@
-# Core Concepts: Applications
+---
+description:
+---
 
-An application is one of the core concepts in Auth0, which is why it's important to know how this relates to your applications and the impact this will have on auditing, authorization, billing, ...
+# Clients
 
-> Depending on the concepts or technologies you're working with, an application might also be referred to as a **client** or a **relying party**.
+A client test
 
-## Applications in Auth0
+* [Clients in Auth0]()
+    * [Settings](#settings)
+    * [Advanced Settings](#advanced-settings)
+    * [Addons](#addons)
+    * [Connections](#connections)
+    * [Auditing](#auditing)
+    * [Cost](#cost)
+* [Application Examples](#application-examples)
+    * [Regular Web Application](#regular-web-application)
+    * [Mobile + Single Page Application + REST API](#mobile-single-page-application-rest-api)
+    * [Multiple Services and APIs](#multiple-services-and-apis)
+    * [Custom domain names](#custom-domain-names)
 
-Let's start by looking at how applications are represented in Auth0 and how this relates to other core concepts like Connections and Rules.
+## Clients in Auth0
+
+Let's start by looking at how Clients are represented in Auth0 and how this relates to other core concepts like Connections and Rules.
+
+![](/media/articles/clients/applications-callback-settings.png)
 
 ### Settings
 
-![](/media/articles/applications/applications-callback-settings.png)
+The client's settings contain the following information:
 
-The application's settings contain the following information:
-
-- **Name of the application**: Canonical name of your application which you'll see in the portal, emails, logs, ...
-- **Client ID (read-only)**: This is the unique identifier for your application. This is the ID you'll use in your application when setting up authentication with Auth0.
+- **Name**: the canonical name of your client which will be diplayed in the portal, emails, logs, etc.
+- **Domain**: 
+- **Client ID (read-only)**: the unique identifier for your client. This is the ID you'll use in your client when setting up authentication with Auth0.
 - **Client Secret**: This secret will be used to sign and validate tokens which will be used in the different authentication flows. With this key your application will also be able to authenticate to some of the API endpoints (eg: to get an access token from an authorization code).
-- **Allowed Callback Urls**: One or more urls of your application to which Auth0 can redirect after the user has authenticated.
+- **Client Type**:
+- **Token Endpoint Authentication Method**: Defines the requested authentication method for the token endpoint.
+- **Allowed Callback URLs**: One or more urls of your application to which Auth0 can redirect after the user has authenticated.
+- **Allowed Logout URLs**:
 - **Allowed Origins (CORS)**: If you want to use the Auth0 API from within the browser you'll need to add the urls of the applications running your javascript code to prevent Same-origin policy errors.
 - **JWT Expiration**: The expiration in seconds of the access tokens that will be handed out by Auth0.
 - **Use Auth0 instead of the IdP to do Single Sign On**: If this option is enabled Auth0 won't need to redirect users to the identity provider (Facebook, ADFS, ...) if the user has authenticated before and hasn't logged out or his session hasn't expired.
 
+### Advanced Settings
+
+- **Application Metadata**:
+- **Mobile Settings**: 
+- **OAuth**:
+- **WS-Federation**:
+- **Certificates**:
+- **Endpoints**:
+
 ### Addons
 
-![](/media/articles/applications/applications-addon-types.png)
+![](/media/articles/clients/applications-addon-types.png)
 
 Addons are extensions associated with applications and are typically used in 2 different scenarios:
 
 * **Accessing external APIs**: using the delegation endpoint an access token for the application can be exchanged for an access token to a third party service (like [Salesforce](/server-apis/salesforce), Amazon, Azure, Firebase, ...).
 * **Integrating with applications using SAML2/WS-Federation**: enables authentication through Auth0 for applications that support SAML2/WS-Federation like Dropbox, SharePoint, ... The most popular SaaS applications with SAML support are already covered as recipes that will automatically configure the SAML2/WS-Federation addon (in the dashboard under [SSO Integrations](${uiURL}/#/externalapps)). By enabling the addon for an application you can configure every aspect of the SAML2/WS-Federation integration, allowing you to integrate with any custom/SSO integration that we haven't covered yet.
 
-![](/media/articles/applications/applications-sso-integrations-overview.png)
+![](/media/articles/clients/applications-sso-integrations-overview.png)
 
 ### Connections
 
-![](/media/articles/applications/applications-connections-example.png)
+![](/media/articles/clients/applications-connections-example.png)
 
 On application level we are able to choose which connections are enabled, which is useful if an organization is building applications for different audiences. A timesheet application might be for employees only, so we'll want to restrict this to Active Directory authentication. But a customer facing application might have support for Google, Microsoft Accounts, different ADFS connections, ...
 
 ### Rules
 
-![](//docs.google.com/drawings/d/16W_hTS_u2CeDFXkD2PlfituFl7b74EQ6HE_XYn3TdD0/pub?w=891&h=283)
+![](/media/articles/clients/applications-rules.png)
 
 [Rules](/rules) are code snippets written in JavaScript that are executed as part of the authentication pipeline in Auth0. This happens every time a user authenticates to an application. Rules enable very powerful customizations and extensions to be easily added to Auth0.
 
@@ -71,7 +99,7 @@ function (user, context, callback) {
 
 ### Auditing
 
-![](/media/articles/applications/applications-logs-auditing.png)
+![](/media/articles/clients/applications-logs-auditing.png)
 
 Whenever a user logs in to an application, a login fails, a user signs up, a password change is requested, ... these events are logged and can be downloaded using the API or can be accessed in the dashboard. These events contain information about the user (test@auth0.com), the connection (Username-Password-Authentication), the application (Default App) and in addition to that we also keep track of the date and time this event occured, the IP address of the user, the user agent (browser information) and the number of times the user logged in.
 
@@ -81,32 +109,32 @@ The [pricing model](https://auth0.com/pricing) is based on the type of identity 
 
 In the following example we have 3 active social users for the month of February:
 
-![](/media/articles/applications/applications-single-app-active-users.png)
+![](/media/articles/clients/applications-single-app-active-users.png)
 
 Next month John and Mary start using the company's collaboration application which means they'll also become active users for this second application. Which means that we'll have 5 active social users for the month of March:
 
  * Todo List: 3 active users
  * Collaboration Application: 2 active users
 
-![](/media/articles/applications/applications-multi-app-active-users.png)
+![](/media/articles/clients/applications-multi-app-active-users.png)
 
 ## Application Examples
 
 ### Regular Web Application
 
-![](/media/articles/applications/applications-traditional.png)
+![](/media/articles/clients/applications-traditional.png)
 
 For your regular web application you'll simply create a new application in Auth0.
 
 ### Mobile + Single Page Application + REST API
 
-![](/media/articles/applications/applications-multiple-single-logical.png)
+![](/media/articles/clients/applications-multiple-single-logical.png)
 
 This example is an Timesheet application with a REST API hosted on one server, a Single Page application hosted on a different server and a few mobile apps running on different types of devices. From a technical point of view these are 5 applications (different language, deployment model, ...) but for Auth0 this is one and the same application. There's no need to create different applications because we don't want separate auditing (we just want to know who interacted with the REST api), we want to use the same connections in the different client applications, ...
 
 ### Multiple Services and APIs
 
-![](/media/articles/applications/applications-complex-same-app.png)
+![](/media/articles/clients/applications-complex-same-app.png)
 
 Here is an example of a decomposed application with several APIs and services. Depending on the requirements this might just be one application in Auth0. This is the easiest to implement but keep in mind that:
 
@@ -122,7 +150,7 @@ Now on the other hand, you could create different applications for the enterpris
 
 Keep in mind that users calling out to the different APIs will count as additional active users because they will be spanning multiple applications. Choosing between one application and different application will be a functionality vs. cost tradeoff.
 
-![](/media/articles/applications/applications-complex-different.png)
+![](/media/articles/clients/applications-complex-different.png)
 
 ### Custom domain names
 

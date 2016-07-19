@@ -669,6 +669,10 @@
     "to": "/i18n/password-options"
   },
   {
+    "from": "/applications",
+    "to": "/clients"
+  },
+  {
     "from": "/multifactor-authentication2",
     "to": "/multifactor-authentication"
   }
