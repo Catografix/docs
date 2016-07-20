@@ -4,8 +4,6 @@ description:
 
 # Clients
 
-A client test
-
 * [Clients in Auth0]()
     * [Settings](#settings)
     * [Advanced Settings](#advanced-settings)
@@ -13,7 +11,7 @@ A client test
     * [Connections](#connections)
     * [Auditing](#auditing)
     * [Cost](#cost)
-* [Application Examples](#application-examples)
+* [Client Examples](#application-examples)
     * [Regular Web Application](#regular-web-application)
     * [Mobile + Single Page Application + REST API](#mobile-single-page-application-rest-api)
     * [Multiple Services and APIs](#multiple-services-and-apis)
@@ -21,7 +19,7 @@ A client test
 
 ## Clients in Auth0
 
-Let's start by looking at how Clients are represented in Auth0 and how this relates to other core concepts like Connections and Rules.
+A Client in Auth0 is an application that you create in your account to be the agent for your connections. 
 
 ![](/media/articles/clients/applications-callback-settings.png)
 
@@ -32,7 +30,7 @@ The client's settings contain the following information:
 - **Name**: the canonical name of your client which will be diplayed in the portal, emails, logs, etc.
 - **Domain**: 
 - **Client ID (read-only)**: the unique identifier for your client. This is the ID you'll use in your client when setting up authentication with Auth0.
-- **Client Secret**: This secret will be used to sign and validate tokens which will be used in the different authentication flows. With this key your application will also be able to authenticate to some of the API endpoints (eg: to get an access token from an authorization code).
+- **Client Secret**: This secret will be used to sign and validate tokens which will be used in the different authentication flows. With this key your Client will also be able to authenticate to some of the API endpoints (eg: to get an access token from an authorization code).
 - **Client Type**:
 - **Token Endpoint Authentication Method**: Defines the requested authentication method for the token endpoint.
 - **Allowed Callback URLs**: One or more urls of your application to which Auth0 can redirect after the user has authenticated.
@@ -54,10 +52,10 @@ The client's settings contain the following information:
 
 ![](/media/articles/clients/applications-addon-types.png)
 
-Addons are extensions associated with applications and are typically used in 2 different scenarios:
+Addons are extensions associated with Clients and are typically used in 2 different scenarios:
 
-* **Accessing external APIs**: using the delegation endpoint an access token for the application can be exchanged for an access token to a third party service (like [Salesforce](/server-apis/salesforce), Amazon, Azure, Firebase, ...).
-* **Integrating with applications using SAML2/WS-Federation**: enables authentication through Auth0 for applications that support SAML2/WS-Federation like Dropbox, SharePoint, ... The most popular SaaS applications with SAML support are already covered as recipes that will automatically configure the SAML2/WS-Federation addon (in the dashboard under [SSO Integrations](${uiURL}/#/externalapps)). By enabling the addon for an application you can configure every aspect of the SAML2/WS-Federation integration, allowing you to integrate with any custom/SSO integration that we haven't covered yet.
+* **Accessing external APIs**: using the delegation endpoint an access token for the Client can be exchanged for an access token to a third party service (like [Salesforce](/server-apis/salesforce), Amazon, Azure, Firebase, ...).
+* **Integrating with applications using SAML2/WS-Federation**: enables authentication through Auth0 for applications that support SAML2/WS-Federation like Dropbox, SharePoint, ... The most popular SaaS applications with SAML support are already covered as recipes that will automatically configure the SAML2/WS-Federation addon (in the dashboard under [SSO Integrations](${uiURL}/#/externalapps)). By enabling the addon for a Client you can configure every aspect of the SAML2/WS-Federation integration, allowing you to integrate with any custom/SSO integration that we haven't covered yet.
 
 ![](/media/articles/clients/applications-sso-integrations-overview.png)
 
@@ -65,7 +63,7 @@ Addons are extensions associated with applications and are typically used in 2 d
 
 ![](/media/articles/clients/applications-connections-example.png)
 
-On application level we are able to choose which connections are enabled, which is useful if an organization is building applications for different audiences. A timesheet application might be for employees only, so we'll want to restrict this to Active Directory authentication. But a customer facing application might have support for Google, Microsoft Accounts, different ADFS connections, ...
+On Client level we are able to choose which connections are enabled, which is useful if an organization is building applications for different audiences. A timesheet application might be for employees only, so we'll want to restrict this to Active Directory authentication. But a customer facing application might have support for Google, Microsoft Accounts, different ADFS connections, ...
 
 ### Rules
 
@@ -101,11 +99,11 @@ function (user, context, callback) {
 
 ![](/media/articles/clients/applications-logs-auditing.png)
 
-Whenever a user logs in to an application, a login fails, a user signs up, a password change is requested, ... these events are logged and can be downloaded using the API or can be accessed in the dashboard. These events contain information about the user (test@auth0.com), the connection (Username-Password-Authentication), the application (Default App) and in addition to that we also keep track of the date and time this event occured, the IP address of the user, the user agent (browser information) and the number of times the user logged in.
+Whenever a user logs in to an application, a login fails, a user signs up, a password change is requested, ... these events are logged and can be downloaded using the API or can be accessed in the dashboard. These events contain information about the user (test@auth0.com), the connection (Username-Password-Authentication), the Client (Default App) and in addition to that we also keep track of the date and time this event occured, the IP address of the user, the user agent (browser information) and the number of times the user logged in.
 
 ### Cost
 
-The [pricing model](https://auth0.com/pricing) is based on the type of identity providers you're using, together with the number of active users and any additional features that have been enabled. Active users are users that authenticated in the last 30 days for **a given application**. We define an application as a client id and client secret pair, if multiple applications (say one on iOS and one on Android) share the same client id and client secret pair, they are a single app in this definition.
+The [pricing model](https://auth0.com/pricing) is based on the type of identity providers you're using, together with the number of active users and any additional features that have been enabled. Active users are users that authenticated in the last 30 days for **a given Client**. We define a Client as a client id and client secret pair, if multiple Clients (say one on iOS and one on Android) share the same client id and client secret pair, they are a single app in this definition.
 
 In the following example we have 3 active social users for the month of February:
 
@@ -118,43 +116,43 @@ Next month John and Mary start using the company's collaboration application whi
 
 ![](/media/articles/clients/applications-multi-app-active-users.png)
 
-## Application Examples
+## Client Examples
 
 ### Regular Web Application
 
 ![](/media/articles/clients/applications-traditional.png)
 
-For your regular web application you'll simply create a new application in Auth0.
+For your regular web application you'll simply create a new Client in Auth0.
 
 ### Mobile + Single Page Application + REST API
 
 ![](/media/articles/clients/applications-multiple-single-logical.png)
 
-This example is an Timesheet application with a REST API hosted on one server, a Single Page application hosted on a different server and a few mobile apps running on different types of devices. From a technical point of view these are 5 applications (different language, deployment model, ...) but for Auth0 this is one and the same application. There's no need to create different applications because we don't want separate auditing (we just want to know who interacted with the REST api), we want to use the same connections in the different client applications, ...
+This example is an Timesheet application with a REST API hosted on one server, a Single Page application hosted on a different server and a few mobile apps running on different types of devices. From a technical point of view these are 5 applications (different language, deployment model, ...) but for Auth0 this is one and the same Client. There's no need to create different Clients because we don't want separate auditing (we just want to know who interacted with the REST api), we want to use the same connections in the different client applications, ...
 
 ### Multiple Services and APIs
 
 ![](/media/articles/clients/applications-complex-same-app.png)
 
-Here is an example of a decomposed application with several APIs and services. Depending on the requirements this might just be one application in Auth0. This is the easiest to implement but keep in mind that:
+Here is an example of a decomposed Client with several APIs and services. Depending on the requirements this might just be one Client in Auth0. This is the easiest to implement but keep in mind that:
 
  * With a single token you'll be able to access all APIs
  * The logs will show that a user has accessed the "Fabrikam Enterprise Portal" because we won't be able to make a distinction between APIs
- * It won't be possible to write rules to control the flow between the applications
+ * It won't be possible to write rules to control the flow between the Clients
 
-Now on the other hand, you could create different applications for the enterprise portal and the backing services. This will allow us to identify the different APIs and services giving you:
+Now on the other hand, you could create different Clients for the enterprise portal and the backing services. This will allow us to identify the different APIs and services giving you:
 
  * Better auditing (you'll be able to see who accessed which service)
- * The ability to apply fine-grained authorization for applications through rules (eg: only finance can access the invoices API)
- * Support to control the flow of your application (eg: the Documents API is the only API that can call the Invoices API)
+ * The ability to apply fine-grained authorization for Clients through rules (eg: only finance can access the invoices API)
+ * Support to control the flow of your Client (eg: the Documents API is the only API that can call the Invoices API)
 
-Keep in mind that users calling out to the different APIs will count as additional active users because they will be spanning multiple applications. Choosing between one application and different application will be a functionality vs. cost tradeoff.
+Keep in mind that users calling out to the different APIs will count as additional active users because they will be spanning multiple Clients. Choosing between one Client and different Client will be a functionality vs. cost tradeoff.
 
 ![](/media/articles/clients/applications-complex-different.png)
 
 ### Custom domain names
 
-The public, multi-tenant cloud service version of Auth0 supports a domain name of `auth0.com`.  Applications deployed in this service will use a domain name of `{account-name}.auth0.com` or `{account-name}.{location}.auth0.com`.
+The public, multi-tenant cloud service version of Auth0 supports a domain name of `auth0.com`.  Clients deployed in this service will use a domain name of `{account-name}.auth0.com` or `{account-name}.{location}.auth0.com`.
 
 For example:
 
@@ -164,7 +162,7 @@ mycompany.eu.auth0.com
 mycompany.au.auth0.com
 ```
 
-Note that with the public cloud service, the `*.auth0.com` endpoints are only used for authentication and the API, not your application.
+Note that with the public cloud service, the `*.auth0.com` endpoints are only used for authentication and the API, not your Client.
 
 It is possible to have a custom domain name, which completely hides the Auth0 name, such as `mycompany.com`.  Use of a custom domain name requires a single-tenant version of Auth0, which can be deployed in either an Auth0-managed cloud, a customer-managed cloud, or an on-premise installation.  These three deployment options do have a higher cost, due to the extra administrative work to manage them, compared to the public cloud.
 
